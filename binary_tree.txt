@@ -1,0 +1,85 @@
+#include<iostream>
+using namespace std;
+class Node
+{
+    public:
+    Node* left;
+    Node* right;
+    int data;
+    Node(int data)
+    {
+        this->left=NULL;
+        this->right=NULL;
+        this->data=data;
+    }
+};
+class Tree
+{
+    int n;
+    Node* a[10];
+    int front=0,rear=-1;
+    public:
+    void enqueue(Node *ptr)
+    {
+        a[++rear]=ptr;
+    }
+    Node* dequeue()
+    {
+        return a[front++];
+    }
+    bool isempty()
+    {
+        if(front>rear)
+            return true;
+        else
+            return false;
+    }
+    Node* create()
+    {
+        int data;
+        cout<<"Enter the root value: ";
+        cin>>data;
+        Node* root=new Node(data);
+        enqueue(root);
+        while(!isempty())
+        {
+            Node* deq;
+            deq=dequeue();
+            cout<<"Enter the left child: ";
+            cin>>data;
+            if(data!=-1)
+            {
+                Node* temp1=new Node(data);
+                deq->left=temp1;
+                enqueue(temp1);
+            }
+            cout<<"Enter the right child: ";
+            cin>>data;
+            if(data!=-1)
+            {
+                Node* temp2=new Node(data);
+                deq->right=temp2;
+                enqueue(temp2);
+            }
+        }
+        return root;
+    }
+    void preorder(Node* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        cout<<root->data<<" ";
+        preorder(root->left);
+        preorder(root->right);
+    }
+};
+int main()
+{
+    Tree t;
+    Node* root=NULL;
+    root=t.create();
+    cout<<"Preorder traversal: ";
+    t.preorder(root);
+}
